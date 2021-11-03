@@ -1,2 +1,2 @@
 # Union
-Union is a program created to automate campo solar work.
+Union is a program created to automate campo solar job.
