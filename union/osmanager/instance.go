@@ -11,20 +11,25 @@ import (
 )
 
 func CreateInstanceFolder(c manager.Client) error {
+	path := "union/instances/" + c.Nome
 	if _, err := os.Stat("union/"); os.IsNotExist(err) {
 		osPanic(err)
 	} else if _, err := os.Stat("union/instances"); os.IsNotExist(err) {
 		osPanic(err)
+	} else if _, err := os.Stat(path); os.IsNotExist(err) {
+		err := os.Mkdir(fmt.Sprint("union/instances/", c.Nome), 0755)
+		osPanic(err)
 	}
-	err := os.Mkdir(fmt.Sprint("union/instances/", c.Nome), 0755)
-	osPanic(err)
 	return nil
 }
 
 func NewInstance(c manager.Client) *os.File {
 	path := fmt.Sprint("union/instances/", c.Nome)
-	file, err := os.Create(fmt.Sprint(path, "/", c.Nome, ".json"))
-	osPanic(err)
+	var file *os.File
+	if _, err := os.Stat(path); os.IsNotExist(err){
+		file, err = os.Create(fmt.Sprint(path, "/", c.Nome, ".json"))
+		osPanic(err)
+	}
 	return file
 }
 
