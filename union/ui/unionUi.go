@@ -3,103 +3,91 @@ package ui
 import (
 	"log"
 
+	"com.github/FelipeAlafy/union/controllers"
 	"github.com/gotk3/gotk3/gtk"
 )
 
+var editing bool = false
+
 func OnActivate(app *gtk.Application) {
 	appWindow, err := gtk.ApplicationWindowNew(app)
-	if err != nil {
-		log.Fatal("I cannot create appWindow: ", err)
-	} 
+	Err("AppWindow", err) 
 	appWindow.SetDefaultSize(720, 680)
 	appWindow.SetPosition(gtk.WIN_POS_CENTER)
-	headerbar, _ := headerbar()
+	headerbar, headerbarButtons := headerbar()
 	appWindow.SetTitlebar(headerbar)
-	applyStyle(true)
-	ui(appWindow)
+	Rateios := subUiRateio(editing)
+	rateios = Rateios
+	ui(appWindow, headerbarButtons)
 	appWindow.ShowAll()
 }
 
-func ui(app *gtk.ApplicationWindow) {
+func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	mainbox, err := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 10)
-	if err != nil {
-		log.Fatal("I cannot create MainBox, because: ", err.Error())
-	}
+	Err("MainBox", err)
 	mainbox.SetName("mainbox")
 	app.Add(mainbox)
 
 	//Searchbar
 	searchEntry, err := gtk.SearchEntryNew()
-	if err != nil {
-		log.Fatal("I cannot create SearchEntry, beacause: ", err.Error())
-	}
+	Err("SearchEntry", err)
 	searchEntry.Widget.SetHAlign(gtk.ALIGN_CENTER)
 	mainbox.PackStart(searchEntry, false, false, 5)
 
 	//Label
 	label, err := gtk.LabelNew("Cliente")
-	if err != nil {
-		log.Fatal("I cannot create label, beacause: ", err.Error())
-	}
+	Err("Label Cliente", err)
 	mainbox.PackStart(label, false, false, 5)
 
 	//Hbox
 	hbox, err := gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 10)
-	if err != nil {
-		log.Fatal("I cannot create Hbox, beacause: ", err.Error())
-	}
+	Err("Hbox", err)
 	mainbox.PackEnd(hbox, true, true, 5)
-
 	
 	//Button backward
 	backward, err := gtk.ButtonNewFromIconName("forward-rtl-symbolic", gtk.ICON_SIZE_BUTTON)
-	if err != nil {
-		log.Fatal("I cannot create Bakckward button, beacause: ", err.Error())
-	}
+	Err("Backward button", err)
 	hbox.PackStart(backward, false, true, 2)
+	backward.SetOpacity(0.10)
 
 	//grid
 	grid, err := gtk.GridNew()
-	if err != nil {
-		log.Fatal("I cannot create grid button, beacause: ", err.Error())
-	}
+	Err("Grid", err)
 	grid.SetRowSpacing(5)
 	grid.SetHAlign(gtk.ALIGN_CENTER)
 	grid.SizeAllocate(app.GetAllocation())
 	labels(grid)
-	fields(grid)
+	entries, zonaRural, pago := fields(grid)
+	
+	controllers.Init(entries, rateios, zonaRural, pago)
 
 	//ScrolledWindow
 	scroll, err := gtk.ScrolledWindowNew(nil, nil)
-	if err != nil {
-		log.Fatal("I cannot create ScrolledWindow button, beacause: ", err.Error())
-	}
+	Err("Scroll", err)
 	hbox.PackStart(scroll, true, true, 5)
 	scroll.Add(grid)
 
 	//Button forward
 	forward, err := gtk.ButtonNewFromIconName("forward-symbolic", gtk.ICON_SIZE_BUTTON)
-	if err != nil {
-		log.Fatal("I cannot create Forward button, beacause: ", err.Error())
-	}
+	Err("Forward button", err)
 	hbox.PackEnd(forward, false, true, 2)
+	forward.SetOpacity(0.10)
+
+
+	//Functions
+	InitInteractions(entries, rateios, zonaRural, pago)
+	forward.Connect("clicked", func() { 	nextClient()	})
+	backward.Connect("clicked", func() { 	previousClient()	})
+	hbb[0].Connect("clicked", func ()  { 	Adicionar()	})
+	hbb[1].Connect("clicked", func() { 		EditProject()	})
+	hbb[3].Connect("clicked", func() { 		ArchiveProject(Window)		})
+	hbb[4].Connect("clicked", func ()  {	openProjectFolder()		})
+
 }
 
-func applyStyle(dark bool) {
-	css, err := gtk.CssProviderNew()
+func Err(comp string, err error) {
 	if err != nil {
-		log.Println("0 Failed to apply css style: ", err.Error())
-		return
+		log.Fatal("I cannot create ", comp, ", because: ", err.Error())
 	}
-	if dark {
-		err = css.LoadFromPath("ui/dark.css")
-		if err != nil {
-			log.Println("1 Failed to apply css style: ", err.Error())
-		}
-	} else {
-		err = css.LoadFromData("ui/light.css")
-		if err != nil {
-			log.Println("2 Failed to apply css style: ", err.Error())
-		}
-	}
+	
 }
