@@ -67,6 +67,11 @@ func ActualClient() {
 	dataSet(instances[currentClient])
 }
 
+func SetClient(i int) {
+	currentClient := i
+	dataSet(instances[currentClient])
+}
+
 func AddClient(entries, rateios []*gtk.Entry, zonaRural, pago *gtk.CheckButton) {
 	client := DataGet(entries, rateios, zonaRural, pago)
 	osmanager.CreateInstanceFolder(client)
