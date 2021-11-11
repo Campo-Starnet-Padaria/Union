@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"log"
+
 	"com.github/FelipeAlafy/union/controllers"
 	"github.com/gotk3/gotk3/gtk"
 )
@@ -103,4 +105,13 @@ func editingMode(editing bool) {
 func updateUi() {
 	clearFields()
 	controllers.ActualClient()
+}
+
+//Search interaction
+func searchFor(Entry *gtk.SearchEntry) {
+	text, _ := Entry.GetText()
+	log.Println("Searching for ", text)
+	result := controllers.SearchForClients(text, true)
+	clearFields()
+	controllers.SetClient(result)
 }
