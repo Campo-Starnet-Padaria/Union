@@ -19,6 +19,14 @@ func GetClients(c []string) []Client {
 	return clients
 }
 
+func GetClient(c string) Client {
+	json, err := JsonToClient([]byte(c))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	return json
+}
+
 func (c Client) InsertAttachment(file *os.File) error {
 	path := fmt.Sprint("union/instances/", c.Nome, "/")
 	filePath, err := makeFile(path, SubstringAfterLast(file.Name(), "/"))
