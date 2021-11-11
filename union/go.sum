@@ -8,3 +8,5 @@ github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/signintech/gopdf v0.10.4 h1:p7PB9UP+zF61IjgsttiL/5PpNFLmpyLz+rvRhAZOLyk=
 github.com/signintech/gopdf v0.10.4/go.mod h1:PXwitUSeFWEWs+wHVjSS3cUmD4PTXB686ozqfDIQQoQ=
+github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966 h1:JIAuq3EEf9cgbU6AtGPK4CTG3Zf6CKMNqf0MHTggAUA=
+github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966/go.mod h1:sUM3LWHvSMaG192sy56D9F7CNvL7jUJVXoqM1QKLnog=
