@@ -137,10 +137,11 @@ func labels (grid *gtk.Grid) {
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 2)
 }
 
-func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton, *gtk.Button, *gtk.TextView) {
-	widgets := make([]*gtk.Entry, 28) 
+func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
+	widgets := make([]*gtk.Entry, 29) 
 	//thirty one fields
 	nome, err := gtk.EntryNew()
+	nome.SetName("NameEntry")
 	fatal("field Nome", err)
 	grid.Attach(nome, 5, 0, 100, 1)
 	widgets[0] = nome
@@ -212,7 +213,6 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton, *
 
 	estado, err := gtk.EntryNew()
 	fatal("Entry Estado", err)
-	estado.SetText("MG")
 	grid.AttachNextTo(estado, cidade, gtk.POS_BOTTOM, 2, 2)
 	widgets[14] = estado
 
@@ -296,11 +296,20 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton, *
 	grid.AttachNextTo(ppkw, mdgm, gtk.POS_BOTTOM, 2, 2)
 	widgets[27] = ppkw
 
-	observacoes, err := gtk.TextViewNew()
+	observacoes, err := gtk.EntryNew()
 	fatal("Observações TextView", err)
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 20)
-	
-	return widgets, zonaRural, pago, rateio, observacoes
+	widgets[28] = observacoes
+
+	for _, entry := range widgets {
+		entry.SetSensitive(false)
+	}
+	zonaRural.SetSensitive(false)
+	pago.SetSensitive(false)
+
+	rateio.Connect("clicked", func ()  {	initRat()	})
+
+	return widgets, zonaRural, pago
 }
 
 func fatal(comp string, err error) {
