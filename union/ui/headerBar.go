@@ -65,7 +65,6 @@ func headerBarButtons() (*gtk.Button, *gtk.Button, *gtk.Button, *gtk.Button, *gt
 	return newButton, editButton, configButton, archiveButton, instanceButton, buttons
 }
 
-
 func rateioHeaderbar() (*gtk.HeaderBar, *gtk.Button) {
 	headerbar, err := gtk.HeaderBarNew()
 	if err != nil {
@@ -79,4 +78,18 @@ func rateioHeaderbar() (*gtk.HeaderBar, *gtk.Button) {
 	}	
 	headerbar.PackStart(saveButton)
 	return headerbar, saveButton 
+}
+
+func imagesHeaderbar() (*gtk.HeaderBar, *gtk.FileChooserButton, *gtk.Button) {
+	headerbar, err := gtk.HeaderBarNew()
+	if err != nil {
+		log.Fatal("I cannot create headerbar for images window. ", err.Error())
+	}
+	headerbar.SetTitle("Imagens")
+
+	newImages, _ := gtk.FileChooserButtonNew("Selecione as imagens", gtk.FILE_CHOOSER_ACTION_OPEN)
+	headerbar.PackStart(newImages)
+	close, _ := gtk.ButtonNewFromIconName("close-symbolic", gtk.ICON_SIZE_BUTTON)
+	headerbar.PackEnd(close)
+	return headerbar, newImages, close
 }

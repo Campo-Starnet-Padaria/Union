@@ -27,11 +27,13 @@ func GetClient(c string) Client {
 	return json
 }
 
-func (c Client) InsertAttachment(file *os.File) error {
+func (c Client) InsertAttachment(url string) error {
+	fpath := SubstringAfterLast(url, "file://")
+	file, _ := os.Open(fpath)
 	path := fmt.Sprint("union/instances/", c.Nome, "/")
-	filePath, err := makeFile(path, SubstringAfterLast(file.Name(), "/"))
+	filePath, err := makeFile(path, SubstringAfterLast(url, "/"))
 	if err != nil {
-		log.Println("I can't put ", SubstringAfterLast(file.Name(), "/"), " because ", err)
+		log.Println("I can't put ", SubstringAfterLast(url, "/"), " because ", err)
 		return err
 	}
 	io.Copy(filePath, file)

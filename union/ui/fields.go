@@ -6,6 +6,8 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 )
 
+var fotos *gtk.Button
+
 func labels (grid *gtk.Grid) {
 	//thirty one labels
 	nome, err := gtk.LabelNew("Nome: ")
@@ -301,6 +303,10 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 20)
 	widgets[28] = observacoes
 
+	fotos, err = gtk.ButtonNewWithLabel("Fotos")
+	fatal("ButtonNew Fotos", err)
+	grid.AttachNextTo(fotos, observacoes, gtk.POS_BOTTOM, 2, 2)
+
 	for _, entry := range widgets {
 		entry.SetSensitive(false)
 	}
@@ -308,6 +314,7 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 	pago.SetSensitive(false)
 
 	rateio.Connect("clicked", func ()  {	initRat()	})
+	fotos.Connect("clicked", func ()  {		photoView()		})
 
 	return widgets, zonaRural, pago
 }
