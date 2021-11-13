@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"strconv"
 
 	"com.github/FelipeAlafy/union/manager"
@@ -16,7 +17,8 @@ func DataGet(Entries, rateios []*gtk.Entry, zonaRural, pago *gtk.CheckButton) ma
 	client.Nome 			= getText(entries[0])
 	client.Cpf				= getText(entries[1])
 	client.Rg				= getText(entries[2])
-	client.Nascimento		= getText(entries[3])
+	client.Nascimento		= getDate(*Calendar[0])
+	client.Nacionalidade	= getText(entries[3])
 	client.Telefone			= getText(entries[4])
 	client.TelefoneFixo		= getText(entries[5])
 	client.ClienteCemig		= getText(entries[6])
@@ -32,29 +34,32 @@ func DataGet(Entries, rateios []*gtk.Entry, zonaRural, pago *gtk.CheckButton) ma
 	client.ZonaRural		= ZonaRural.GetActive()
 	client.ValorDoKit		= toFloat(getText(entries[16]))
 	client.ValorTotal		= toFloat(getText(entries[17]))
-	client.Montagem			= toFloat(getText(entries[18]))
+	client.Montagem			= ValorMontadores(getText(entries[16]))
 	client.Pago				= Pago.GetActive()
-	client.Comissionario	= getText(entries[19])
-	client.Comissao			= toFloat(getText(entries[20]))
+	client.Comissionario	= getText(entries[18])
+	client.Comissao			= ValorComissao(getText(entries[16]))
 	client.NotaKit			= getText(entries[20])
 	client.NotaServico		= getText(entries[21])
-	client.EntregaPlacas	= getText(entries[22])
-	client.Instalacao		= getText(entries[23])
-	client.Finalizacao		= getText(entries[24])
+	client.EntregaPlacas	= getDate(*Calendar[1])
+	client.Instalacao		= getDate(*Calendar[2])
+	client.Finalizacao		= getDate(*Calendar[3])
 	client.Rateio			= [9]string{}
-	client.Geracao			= getText(entries[25])
-	client.MDGM				= getText(entries[26])
-	client.PKH				= getText(entries[27])
-	client.Observacao		= getText(entries[28])
+	client.Geracao			= getText(entries[22])
+	client.MDGM				= getText(entries[23])
+	client.PKH				= getText(entries[24])
+	client.Observacao		= getText(entries[25])
 	client.Archived			= false
-	//client.Fotos --- Will be implement in soon
 
 	for i := 0; i < len(client.Rateio); i++ {
 		client.Rateio[i] = getRat(rateios[i])
 	}
 
-
 	return client
+}
+
+func getDate(e gtk.Calendar) string {
+	year, month, day := e.GetDate()
+	return fmt.Sprintf("%v/%v/%v", day, month, year)
 }
 
 func getRat(entry *gtk.Entry) string {

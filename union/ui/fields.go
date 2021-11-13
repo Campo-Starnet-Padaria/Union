@@ -6,6 +6,8 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 )
 
+var fotos *gtk.Button
+
 func labels (grid *gtk.Grid) {
 	//thirty one labels
 	nome, err := gtk.LabelNew("Nome: ")
@@ -24,9 +26,13 @@ func labels (grid *gtk.Grid) {
 	fatal("", err)
 	grid.AttachNextTo(nascimento, rg, gtk.POS_BOTTOM, 2, 2)
 
+	nacionalidade, err := gtk.LabelNew("Nacionalidade: ")
+	fatal("Nacionalidade EntryNew", err)
+	grid.AttachNextTo(nacionalidade, nascimento, gtk.POS_BOTTOM, 2, 2)
+
 	telefone, err := gtk.LabelNew("Telefone: ")
 	fatal("", err)
-	grid.AttachNextTo(telefone, nascimento, gtk.POS_BOTTOM, 2, 2)
+	grid.AttachNextTo(telefone, nacionalidade, gtk.POS_BOTTOM, 2, 2)
 
 	telfixo, err := gtk.LabelNew("Telefone fixo: ")
 	fatal("", err)
@@ -137,8 +143,9 @@ func labels (grid *gtk.Grid) {
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 2)
 }
 
-func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
-	widgets := make([]*gtk.Entry, 29) 
+func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *gtk.CheckButton) {
+	widgets := make([]*gtk.Entry, 26)
+	calendar := make([]*gtk.Calendar, 4)
 	//thirty one fields
 	nome, err := gtk.EntryNew()
 	nome.SetName("NameEntry")
@@ -156,14 +163,19 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 	grid.AttachNextTo(rg, cpf, gtk.POS_BOTTOM, 2, 2)
 	widgets[2] = rg
 
-	nascimento, err := gtk.EntryNew()
+	nascimento, err := gtk.CalendarNew()
 	fatal("field Nascimento", err)
 	grid.AttachNextTo(nascimento, rg, gtk.POS_BOTTOM, 2, 2)
-	widgets[3] = nascimento
+	calendar[0] = nascimento
+
+	nacionalidade, err := gtk.EntryNew()
+	fatal("Nacionalidade EntryNew", err)
+	grid.AttachNextTo(nacionalidade, nascimento, gtk.POS_BOTTOM,  2, 2)
+	widgets[3] = nacionalidade 
 
 	telefone, err := gtk.EntryNew()
 	fatal("", err)
-	grid.AttachNextTo(telefone, nascimento, gtk.POS_BOTTOM, 2, 2)
+	grid.AttachNextTo(telefone, nacionalidade, gtk.POS_BOTTOM, 2, 2)
 	widgets[4] = telefone
 
 	telfixo, err := gtk.EntryNew()
@@ -238,6 +250,7 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 
 	pago, err := gtk.CheckButtonNew()
 	fatal("CheckButton Pago ", err)
+	pago.SetLabel("Valor: ")
 	pago.Widget.SetHAlign(gtk.ALIGN_CENTER)
 	grid.AttachNextTo(pago, total, gtk.POS_BOTTOM, 2, 2)
 	
@@ -249,6 +262,8 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 	comissao, err := gtk.EntryNew()
 	fatal("Entry comissão", err)
 	grid.AttachNextTo(comissao, comissionario, gtk.POS_BOTTOM, 2, 2)
+	comissao.SetSensitive(false)
+	comissao.SetName("ComissaoEntry")
 	widgets[19] = comissao
 
 	notaKit, err := gtk.EntryNew()
@@ -261,22 +276,22 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 	grid.AttachNextTo(notaServico, notaKit, gtk.POS_BOTTOM, 2, 2)
 	widgets[21] = notaServico
 
-	entrega, err := gtk.EntryNew()
-	fatal("Entry entrega", err)
-	grid.AttachNextTo(entrega, notaServico, gtk.POS_BOTTOM, 2, 2)
-	widgets[22] = entrega
-
-	instalacao, err := gtk.EntryNew()
-	fatal("Entry Instalação", err)
-	grid.AttachNextTo(instalacao, entrega, gtk.POS_BOTTOM, 2, 2)
-	widgets[23] = instalacao
 	
+	entrega, err := gtk.CalendarNew()
+	fatal("entrega Calendar", err)
+	grid.AttachNextTo(entrega, notaServico, gtk.POS_BOTTOM, 2, 2)
+	calendar[1] = entrega
 
-	finalizacao, err := gtk.EntryNew()
-	fatal("Entry Finalização", err)
+	instalacao, err := gtk.CalendarNew()
+	fatal("Instalação Calendar", err)
+	grid.AttachNextTo(instalacao, entrega, gtk.POS_BOTTOM, 2, 2)
+	calendar[2] = instalacao
+	
+	finalizacao, err := gtk.CalendarNew()
+	fatal("Finalização Calendar", err)
 	grid.AttachNextTo(finalizacao, instalacao, gtk.POS_BOTTOM, 2, 2)
-	widgets[24] = finalizacao
-
+	calendar[3] = finalizacao
+	
 	rateio, err := gtk.ButtonNewWithLabel("Clique para definir os rateios")
 	fatal("Rateio button", err)
 	grid.AttachNextTo(rateio, finalizacao, gtk.POS_BOTTOM, 2, 2)
@@ -284,32 +299,42 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, *gtk.CheckButton, *gtk.CheckButton) {
 	geracao, err := gtk.EntryNew()
 	fatal("Geração Entry", err)
 	grid.AttachNextTo(geracao, rateio, gtk.POS_BOTTOM, 2, 2)
-	widgets[25] = geracao
+	widgets[22] = geracao
 
 	mdgm, err := gtk.EntryNew()
 	fatal("MGDM Entry", err)
 	grid.AttachNextTo(mdgm, geracao, gtk.POS_BOTTOM, 2, 2)
-	widgets[26] = mdgm
+	widgets[23] = mdgm
 
 	ppkw, err := gtk.EntryNew()
 	fatal("PPKW entry", err)
 	grid.AttachNextTo(ppkw, mdgm, gtk.POS_BOTTOM, 2, 2)
-	widgets[27] = ppkw
+	widgets[24] = ppkw
 
 	observacoes, err := gtk.EntryNew()
 	fatal("Observações TextView", err)
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 20)
-	widgets[28] = observacoes
+	widgets[25] = observacoes
+
+	fotos, err = gtk.ButtonNewWithLabel("Fotos")
+	fatal("ButtonNew Fotos", err)
+	grid.AttachNextTo(fotos, observacoes, gtk.POS_BOTTOM, 2, 2)
 
 	for _, entry := range widgets {
 		entry.SetSensitive(false)
 	}
+
+	for _, cal := range calendar {
+		cal.SetSensitive(false)
+	}
+
 	zonaRural.SetSensitive(false)
 	pago.SetSensitive(false)
 
 	rateio.Connect("clicked", func ()  {	initRat()	})
+	fotos.Connect("clicked", func ()  {		photoView()		})
 
-	return widgets, zonaRural, pago
+	return widgets, calendar,  zonaRural, pago
 }
 
 func fatal(comp string, err error) {
