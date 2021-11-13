@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"strings"
+
 	"com.github/FelipeAlafy/union/manager"
 	"com.github/FelipeAlafy/union/osmanager"
 )
+
 
 func reload() {
 	Instances := manager.GetClients(osmanager.GetInstances())
@@ -23,4 +26,16 @@ func reload() {
 		instances = Instances
 		clientLimit = len(instances)
 	}
+}
+
+func SearchForClients(name string, archived bool) (int) {
+	filterArchived = archived
+	reload()
+	//look for a client
+	for i, ins := range instances {
+		if strings.EqualFold(name, ins.Nome) {
+			return i
+		}
+	}
+	return 0
 }

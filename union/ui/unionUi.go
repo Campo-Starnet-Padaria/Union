@@ -77,6 +77,10 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	//Functions
 	controllers.Init(entries, calendar, rateios, zonaRural, pago)
 	InitInteractions(entries, rateios, calendar,  zonaRural, pago)
+	searchEntry.Connect("activate", func ()  {
+		searchFor(searchEntry)
+	})
+  
 	forward.Connect("clicked", func() { 	nextClient()	})
 	backward.Connect("clicked", func() { 	previousClient()	})
 	hbb[0].Connect("clicked", func ()  { 	Adicionar()		})
