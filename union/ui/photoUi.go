@@ -7,7 +7,7 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 )
 
-func photoView() *gtk.FileChooserButton {
+func photoView() {
 	window, err := gtk.WindowNew(gtk.WINDOW_TOPLEVEL)
 	Err("photoView/WindowNew window", err)
 
@@ -62,11 +62,12 @@ func photoView() *gtk.FileChooserButton {
 		} else {
 			dialog.Close()
 		}
+		pixbuf := controllers.ActualImage()
+		image.SetFromPixbuf(pixbuf)
 	})
 
 	hbox.PackStart(backward, false, true, 2)
 	hbox.PackEnd(forward, false, true, 2)
 	hbox.PackEnd(image, true, true, 2)
 	window.ShowAll()
-	return chooser
 }

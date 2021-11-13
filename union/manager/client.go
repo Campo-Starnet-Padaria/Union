@@ -10,6 +10,7 @@ type Client struct {
 	Cpf             string      `json:"CPF"`
 	Rg              string      `json:"RG"`
 	Nascimento      string      `json:"Nascimento"`
+	Nacionalidade	string		`json:"Nacionalidade"`
 	Telefone        string      `json:"Telefone"`
 	TelefoneFixo    string      `json:"TelefoneFixo"`
 	ClienteCemig    string      `json:"ClienteCemig"`

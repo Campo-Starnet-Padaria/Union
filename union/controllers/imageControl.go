@@ -31,6 +31,9 @@ func crop(image *gdk.Pixbuf) *gdk.Pixbuf {
 func ActualImage() *gdk.Pixbuf {
 	reload()
 	imageLimit = len(instances[currentClient].Fotos)
+	if imageLimit <= 0 {
+		return nil
+	}
 	image, _ := gdk.PixbufNewFromFile(getPath(instances[currentClient].Fotos[currentImage]))
 	return crop(image)
 }

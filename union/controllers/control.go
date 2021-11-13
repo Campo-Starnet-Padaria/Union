@@ -14,21 +14,25 @@ var clientLimit int
 var currentClient int = -1
 var instances []manager.Client
 var Entries []*gtk.Entry
+var Calendar []*gtk.Calendar
 var	ZonaRural *gtk.CheckButton
 var Pago *gtk.CheckButton
 var Rateios []*gtk.Entry
 var filterArchived bool
 
-func Init(entries []*gtk.Entry, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton) {
+func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton) {
+	reload()
 	filterArchived = false
 	Entries = entries
+	Calendar = calendar
 	ZonaRural = zonaRural 
 	Pago = pago
 	Rateios = rateios
-	
-	NextClient()
-}
 
+	if clientLimit > 0 {
+		NextClient()
+	}
+}
 
 func forward() manager.Client {
 	reload()
@@ -64,6 +68,9 @@ func PreviousClient(){
 
 func ActualClient() {
 	reload()
+	if currentClient == -1 {
+		currentClient++
+	}
 	dataSet(instances[currentClient])
 }
 

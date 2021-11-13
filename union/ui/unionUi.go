@@ -8,6 +8,7 @@ import (
 )
 
 var editing bool = false
+var NewButton *gtk.Button
 
 func OnActivate(app *gtk.Application) {
 	appWindow, err := gtk.ApplicationWindowNew(app)
@@ -15,6 +16,7 @@ func OnActivate(app *gtk.Application) {
 	appWindow.SetDefaultSize(720, 680)
 	appWindow.SetPosition(gtk.WIN_POS_CENTER)
 	headerbar, headerbarButtons := headerbar()
+	NewButton = headerbarButtons[0]
 	appWindow.SetTitlebar(headerbar)
 	Rateios := subUiRateio(editing)
 	rateios = Rateios
@@ -57,9 +59,7 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	grid.SetHAlign(gtk.ALIGN_CENTER)
 	grid.SizeAllocate(app.GetAllocation())
 	labels(grid)
-	entries, zonaRural, pago := fields(grid)
-	
-	controllers.Init(entries, rateios, zonaRural, pago)
+	entries, calendar, zonaRural, pago := fields(grid)
 
 	//ScrolledWindow
 	scroll, err := gtk.ScrolledWindowNew(nil, nil)
@@ -75,10 +75,11 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 
 
 	//Functions
-	InitInteractions(entries, rateios, zonaRural, pago)
+	controllers.Init(entries, calendar, rateios, zonaRural, pago)
+	InitInteractions(entries, rateios, calendar,  zonaRural, pago)
 	forward.Connect("clicked", func() { 	nextClient()	})
 	backward.Connect("clicked", func() { 	previousClient()	})
-	hbb[0].Connect("clicked", func ()  { 	Adicionar()	})
+	hbb[0].Connect("clicked", func ()  { 	Adicionar()		})
 	hbb[1].Connect("clicked", func() { 		EditProject()	})
 	hbb[3].Connect("clicked", func() { 		ArchiveProject(Window)		})
 	hbb[4].Connect("clicked", func ()  {	openProjectFolder()		})

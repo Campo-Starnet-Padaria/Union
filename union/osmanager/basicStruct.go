@@ -24,6 +24,6 @@ func BasicFolders() (error) {
 
 func osPanic(e error) {
 	if e != nil {
-		panic(fmt.Sprint("union/osmanager/ - Error: ", e))
+		panic(fmt.Sprint("union/osmanager/ - Error: ", e.Error()))
 	}
 }
