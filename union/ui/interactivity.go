@@ -2,8 +2,9 @@ package ui
 
 import (
 	"fmt"
+	"log"
 
-  "com.github/FelipeAlafy/union/controllers"
+  	"com.github/FelipeAlafy/union/controllers"
 	"github.com/gotk3/gotk3/gtk"
 )
 
