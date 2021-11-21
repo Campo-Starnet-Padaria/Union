@@ -7,7 +7,7 @@ Union is a program created to automate campo solar job.
 
 ## Building - Using docker:
 * First install docker.
-* `sudo docker run -it fedora /bin/bash`
+* ```sudo docker run -it fedora /bin/bash``
 * `yum install mingw64-gtk3 go glib2-devel`
 * `bash -c "sed -i -e 's/-Wl,-luuid/-luuid/g' /usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/gdk-3.0.pc"`
 * Setup git in container to clone, this repo.
