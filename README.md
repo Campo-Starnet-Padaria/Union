@@ -8,16 +8,16 @@ Union is a program created to automate campo solar job.
 ## Building - Using docker:
 * First install docker.
 * docker run -it fedora /bin/bash
-* bash -c "sed -i -e 's/-Wl,-luuid/-luuid/g' /usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/gdk-3.0.pc"
 * yum install mingw64-gtk3 go glib2-devel
+* bash -c "sed -i -e 's/-Wl,-luuid/-luuid/g' /usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/gdk-3.0.pc"
 * Setup git in container to clone, this repo.
-* PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 go install -v github.com/gotk3/gotk3/gtk
 * cd root
 * mkdir go
 * cd go
 * mkdir src pkg lib bin
 * cd src
 * Get program from github, and CD to it.
+* PKG_CONFIG_PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 go install -v github.com/gotk3/gotk3/gtk
 * CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 go build -ldflags -H=windowsgui #Compile
 * yes | cp -r /usr/x86_64-w64-mingw32/sys-root/mingw/* . #Get gtk libs
 * sudo docker ps -alq #get id from current session image
