@@ -23,4 +23,9 @@ Union is a program created to automate campo solar job.
 * `sudo docker ps -alq` #get id from current session image
 * `cp <image-id>:/root/go/src/Union/union` Documentos/union
 
-
+# Install:
+* Install the [
+GTK-for-Windows-Runtime-Environment-Installer ](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer) or just donwload from this direct [link](https://drive.google.com/file/d/1Gyi5yugTFvHv6NLX9WBJHsQ1f9PpMZZX/view?usp=sharing).
+* And now, you're able to install Union in your windows machine.
+* Just move Union folder to Documents or some other folder in your machine.
+* If you want an icon in an executable file, just create a shortcut in windows and insert the project logo. And with that you can pin Union to the Start menu or the taskbar.
