@@ -152,3 +152,18 @@ func searchFor(Entry *gtk.SearchEntry) {
 	clearFields()
 	controllers.SetClient(result)
 }
+
+//Configurações
+func configs() {
+	popover, _ := gtk.PopoverNew(ConfigButton)
+	archived, _ := gtk.SwitchNew()
+	lbl, _ := gtk.LabelNew("Habilitar arquivados: ")
+
+	grid, _ := gtk.GridNew()
+	grid.Attach(lbl, 1, 1, 1, 1)
+	grid.AttachNextTo(archived, lbl, gtk.POS_RIGHT, 10, 1)
+	popover.Add(grid)
+	
+	grid.ShowAll()
+	popover.ShowNow()
+}

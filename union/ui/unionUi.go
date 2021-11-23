@@ -9,6 +9,7 @@ import (
 
 var editing bool = false
 var NewButton *gtk.Button
+var ConfigButton *gtk.Button
 
 func OnActivate(app *gtk.Application) {
 	appWindow, err := gtk.ApplicationWindowNew(app)
@@ -17,6 +18,7 @@ func OnActivate(app *gtk.Application) {
 	appWindow.SetPosition(gtk.WIN_POS_CENTER)
 	headerbar, headerbarButtons := headerbar()
 	NewButton = headerbarButtons[0]
+	ConfigButton = headerbarButtons[3]
 	appWindow.SetTitlebar(headerbar)
 	Rateios := subUiRateio(editing)
 	rateios = Rateios
@@ -85,6 +87,7 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	backward.Connect("clicked", func() { 	previousClient()	})
 	hbb[0].Connect("clicked", func ()  { 	Adicionar()		})
 	hbb[1].Connect("clicked", func() { 		EditProject()	})
+	hbb[2].Connect("clicked", func() { 		configs()		})
 	hbb[3].Connect("clicked", func() { 		ArchiveProject(Window)		})
 	hbb[4].Connect("clicked", func ()  {	openProjectFolder()		})
 
