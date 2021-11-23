@@ -14,12 +14,12 @@ func applyStyle(dark bool) {
 		return
 	}
 	if dark {
-		err = css.LoadFromPath("ui/dark.css")
+		err = css.LoadFromPath("share/themes/Orchis/gtk-3.0")
 		if err != nil {
 			log.Println("1 Failed to apply css style: ", err.Error())
 		}
 	} else {
-		err = css.LoadFromData("ui/light.css")
+		err = css.LoadFromData("share/themes/Orchis/gtk-3.0")
 		if err != nil {
 			log.Println("2 Failed to apply css style: ", err.Error())
 		}
