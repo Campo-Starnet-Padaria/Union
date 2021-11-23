@@ -10,3 +10,8 @@ require (
 )
 
 require github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+
+require (
+	github.com/mattn/go-gtk v0.0.0-20191030024613-af2e013261f5 // indirect
+	github.com/mattn/go-pointer v0.0.1 // indirect
+)

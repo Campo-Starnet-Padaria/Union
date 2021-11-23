@@ -10,7 +10,7 @@ func ValorMontadores(kit string) float64 {
 }
 
 func ValorComissao(kit string) float64 {
-	return (toFloat(kit) * 0.05) / 100
+	return (toFloat(kit) * 3) / 100
 }
 
 func CashFormat(v float64) string {
