@@ -19,8 +19,9 @@ var	ZonaRural *gtk.CheckButton
 var Pago *gtk.CheckButton
 var Rateios []*gtk.Entry
 var filterArchived bool
+var Empresa *gtk.CheckButton
 
-func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton) {
+func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton, empresa *gtk.CheckButton) {
 	reload()
 	filterArchived = false
 	Entries = entries
@@ -28,6 +29,7 @@ func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, 
 	ZonaRural = zonaRural 
 	Pago = pago
 	Rateios = rateios
+	Empresa = empresa
 
 	if clientLimit > 0 {
 		NextClient()
@@ -74,13 +76,21 @@ func ActualClient() {
 	dataSet(instances[currentClient])
 }
 
+func GetActualClientInstance() manager.Client {
+	reload()
+	if currentClient == -1 {
+		currentClient++
+	}
+	return instances[currentClient]
+}
+
 func SetClient(i int) {
 	currentClient := i
 	dataSet(instances[currentClient])
 }
 
-func AddClient(entries, rateios []*gtk.Entry, zonaRural, pago *gtk.CheckButton) {
-	client := DataGet(entries, rateios, zonaRural, pago)
+func AddClient() {
+	client := DataGet(entries, Rateios, ZonaRural, Pago, Empresa)
 	osmanager.CreateInstanceFolder(client)
 	instance := osmanager.NewInstance(client)
 	json, err := client.ClientToJson()
@@ -107,7 +117,7 @@ func Archive() bool {
 }
 
 func Edit() {
-	client := DataGet(Entries, Rateios, ZonaRural, Pago)
+	client := DataGet(Entries, Rateios, ZonaRural, Pago, Empresa)
 	osmanager.ReWriteInstanceData(client)
 }
 

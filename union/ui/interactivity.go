@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-  	"com.github/FelipeAlafy/union/controllers"
+	"com.github/FelipeAlafy/union/controllers"
 	"github.com/gotk3/gotk3/gtk"
 )
 
@@ -15,13 +15,15 @@ var rateios []*gtk.Entry
 var calendar []*gtk.Calendar
 var zonaRural *gtk.CheckButton
 var pago *gtk.CheckButton
+var empresa *gtk.CheckButton
 
-func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, ZonaRural *gtk.CheckButton, Pago *gtk.CheckButton) {
+func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, ZonaRural *gtk.CheckButton, Pago *gtk.CheckButton, Empresa *gtk.CheckButton) {
 	entries = Entries
 	rateios = Rateios
 	calendar = Calendar
 	zonaRural = ZonaRural
 	pago = Pago
+	empresa = Empresa
 
 	//Entry: Valor do Kit
 	entries[16].Connect("activate", func ()  {
@@ -64,6 +66,7 @@ func Adicionar() {
 		clearFields()
 		NewButton.SetLabel("Adicionar")
 		fotos.SetSensitive(false)
+		ProcuracaoButton.SetSensitive(false)
 		fotos.SetTooltipText("Depois que você adicionar esse projeto.\n Vá passando até chegar nele, e assim poderá adicionar.")
 		entries[0].SetSensitive(true)
 		entries[0].Connect("activate", func () {
@@ -71,10 +74,11 @@ func Adicionar() {
 			cAdd++
 		})
 	} else {
-		controllers.AddClient(entries, rateios, zonaRural, pago)
+		controllers.AddClient()
 		cAdd--
 		updateUi()
 		editingMode(false)
+		ProcuracaoButton.SetSensitive(true)
 		fotos.SetSensitive(true)
 		fotos.SetTooltipText("")
 		NewButton.SetLabel("Novo")
@@ -166,4 +170,22 @@ func configs() {
 	
 	grid.ShowAll()
 	popover.ShowNow()
+}
+
+//PDF
+func pdfCpf(city string, representante, nacionalidade, estadoCivil, rgRepresentante, cpfRepresentante, numero, comp, rua, bairro, cidade, estado, cep *gtk.Entry) {
+	client := controllers.GetActualClientInstance()
+	
+
+	if !client.Empresa {
+		client.GenProcuracaoCPF(city)
+	} else {
+		client.GenProcuracaoCNPJ(city, getText(representante), getText(nacionalidade), getText(estadoCivil), getText(rgRepresentante), getText(cpfRepresentante), getText(numero), getText(comp), getText(rua),
+		 getText(bairro), getText(cidade), getText(estado), getText(cep))
+	}
+}
+
+func getText(e *gtk.Entry) string {
+	t, _ := e.GetText()
+	return  t
 }

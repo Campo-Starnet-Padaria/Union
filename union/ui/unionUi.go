@@ -10,18 +10,22 @@ import (
 var editing bool = false
 var NewButton *gtk.Button
 var ConfigButton *gtk.Button
+var ProcuracaoButton *gtk.Button
 
 func OnActivate(app *gtk.Application) {
 	appWindow, err := gtk.ApplicationWindowNew(app)
 	Err("AppWindow", err) 
 	appWindow.SetDefaultSize(720, 680)
 	appWindow.SetPosition(gtk.WIN_POS_CENTER)
+
 	headerbar, headerbarButtons := headerbar()
 	NewButton = headerbarButtons[0]
 	ConfigButton = headerbarButtons[3]
+
 	appWindow.SetTitlebar(headerbar)
 	Rateios := subUiRateio(editing)
 	rateios = Rateios
+
 	ui(appWindow, headerbarButtons)
 	appWindow.ShowAll()
 }
@@ -61,7 +65,9 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	grid.SetHAlign(gtk.ALIGN_CENTER)
 	grid.SizeAllocate(app.GetAllocation())
 	labels(grid)
-	entries, calendar, zonaRural, pago := fields(grid)
+
+	//load Fields to ui
+	entries, calendar, zonaRural, pago, empresa := fields(grid)
 
 	//ScrolledWindow
 	scroll, err := gtk.ScrolledWindowNew(nil, nil)
@@ -77,8 +83,8 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 
 
 	//Functions
-	controllers.Init(entries, calendar, rateios, zonaRural, pago)
-	InitInteractions(entries, rateios, calendar,  zonaRural, pago)
+	controllers.Init(entries, calendar, rateios, zonaRural, pago, empresa)
+	InitInteractions(entries, rateios, calendar,  zonaRural, pago, empresa)
 	searchEntry.Connect("activate", func ()  {
 		searchFor(searchEntry)
 	})
@@ -97,5 +103,4 @@ func Err(comp string, err error) {
 	if err != nil {
 		log.Fatal("I cannot create ", comp, ", because: ", err.Error())
 	}
-	
 }

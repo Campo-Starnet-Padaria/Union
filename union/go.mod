@@ -4,14 +4,17 @@ go 1.17
 
 require (
 	github.com/gotk3/gotk3 v0.6.1
-	github.com/phpdave11/gofpdi v1.0.13 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/signintech/gopdf v0.10.4 // indirect
 )
 
-require github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+require (
+	github.com/johnfercher/maroto v0.33.0
+	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+)
 
 require (
-	github.com/mattn/go-gtk v0.0.0-20191030024613-af2e013261f5 // indirect
-	github.com/mattn/go-pointer v0.0.1 // indirect
+	github.com/boombuler/barcode v1.0.0 // indirect
+	github.com/google/uuid v1.1.1 // indirect
+	github.com/jung-kurt/gofpdf v1.4.2 // indirect
+	github.com/ruudk/golang-pdf417 v0.0.0-20181029194003-1af4ab5afa58 // indirect
 )
