@@ -8,6 +8,7 @@ import (
 type Client struct {
 	Nome            string      `json:"Nome"`
 	Cpf             string      `json:"CPF"`
+	Empresa			bool		`json:Empresa`
 	Rg              string      `json:"RG"`
 	Nascimento      string      `json:"Nascimento"`
 	Nacionalidade	string		`json:"Nacionalidade"`

@@ -12,6 +12,7 @@ import (
 func dataSet(c manager.Client) {
 	ZonaRural.SetActive(c.ZonaRural)
 	Pago.SetActive(c.Pago)
+	Empresa.SetActive(c.Empresa)
 	Entries[0].SetText(c.Nome)
 	Entries[1].SetText(c.Cpf)
 	Entries[2].SetText(c.Rg)

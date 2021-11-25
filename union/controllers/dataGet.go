@@ -10,12 +10,13 @@ import (
 
 var entries []*gtk.Entry
 
-func DataGet(Entries, rateios []*gtk.Entry, zonaRural, pago *gtk.CheckButton) manager.Client {
+func DataGet(Entries, rateios []*gtk.Entry, zonaRural, pago *gtk.CheckButton, empresa *gtk.CheckButton) manager.Client {
 	var client manager.Client
 	entries = Entries
 
 	client.Nome 			= getText(entries[0])
 	client.Cpf				= getText(entries[1])
+	client.Empresa			= empresa.GetActive()
 	client.Rg				= getText(entries[2])
 	client.Nascimento		= getDate(*Calendar[0])
 	client.Nacionalidade	= getText(entries[3])
