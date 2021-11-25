@@ -83,7 +83,7 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 
 
 	//Functions
-	controllers.Init(entries, calendar, rateios, zonaRural, pago, empresa)
+	controllers.Init(entries, calendar, rateios, zonaRural, pago, empresa, Archived.GetActive())
 	InitInteractions(entries, rateios, calendar,  zonaRural, pago, empresa)
 	searchEntry.Connect("activate", func ()  {
 		searchFor(searchEntry)

@@ -16,6 +16,7 @@ var calendar []*gtk.Calendar
 var zonaRural *gtk.CheckButton
 var pago *gtk.CheckButton
 var empresa *gtk.CheckButton
+var Archived *gtk.Switch
 
 func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, ZonaRural *gtk.CheckButton, Pago *gtk.CheckButton, Empresa *gtk.CheckButton) {
 	entries = Entries
@@ -170,6 +171,7 @@ func configs() {
 	
 	grid.ShowAll()
 	popover.ShowNow()
+	controllers.FilterArchived = archived.GetActive()
 }
 
 //PDF

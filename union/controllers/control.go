@@ -18,12 +18,12 @@ var Calendar []*gtk.Calendar
 var	ZonaRural *gtk.CheckButton
 var Pago *gtk.CheckButton
 var Rateios []*gtk.Entry
-var filterArchived bool
+var FilterArchived bool
 var Empresa *gtk.CheckButton
 
-func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton, empresa *gtk.CheckButton) {
+func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton, empresa *gtk.CheckButton, Archived bool) {
 	reload()
-	filterArchived = false
+	FilterArchived = Archived
 	Entries = entries
 	Calendar = calendar
 	ZonaRural = zonaRural 

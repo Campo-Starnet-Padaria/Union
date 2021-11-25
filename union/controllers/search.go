@@ -11,10 +11,10 @@ import (
 func reload() {
 	Instances := manager.GetClients(osmanager.GetInstances())
 	var nInst []manager.Client
-	if !filterArchived {
+	if !FilterArchived {
 		//in this case get all instances when it has Archived property equals false
 		for _, ins := range Instances {
-			filter := ins.FilterByArchived(filterArchived)
+			filter := ins.FilterByArchived(FilterArchived)
 			if filter {
 				nInst = append(nInst, ins)
 			}
@@ -29,7 +29,7 @@ func reload() {
 }
 
 func SearchForClients(name string, archived bool) (int) {
-	filterArchived = archived
+	FilterArchived = archived
 	reload()
 	//look for a client
 	for i, ins := range instances {
