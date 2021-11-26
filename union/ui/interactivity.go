@@ -15,8 +15,8 @@ var rateios []*gtk.Entry
 var calendar []*gtk.Calendar
 var zonaRural *gtk.CheckButton
 var pago *gtk.CheckButton
-var empresa *gtk.CheckButton
 var Archived *gtk.Switch
+var filter bool = false
 
 func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, ZonaRural *gtk.CheckButton, Pago *gtk.CheckButton, Empresa *gtk.CheckButton) {
 	entries = Entries
@@ -24,7 +24,7 @@ func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, Z
 	calendar = Calendar
 	zonaRural = ZonaRural
 	pago = Pago
-	empresa = Empresa
+	controllers.FilterArchived = false
 
 	//Entry: Valor do Kit
 	entries[16].Connect("activate", func ()  {
@@ -89,11 +89,9 @@ func Adicionar() {
 func ArchiveProject(window *gtk.Window) {
 	result :=  controllers.Archive()
 	if result {
-		dialog := gtk.MessageDialogNew(window, gtk.DIALOG_USE_HEADER_BAR, gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, "O projeto foi arquivado com êxito.", nil)
-		dialog.Run()
+		log.Println(">>> Project was archived.")
 	} else {
-		dialog := gtk.MessageDialogNew(window, gtk.DIALOG_USE_HEADER_BAR, gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, "O projeto foi desarquivado com êxito.", nil)
-		dialog.Run()
+		log.Println(">>> Project was unarchived.")
 	}
 }
 
@@ -153,7 +151,7 @@ func updateUi() {
 func searchFor(Entry *gtk.SearchEntry) {
 	text, _ := Entry.GetText()
 	log.Println("Searching for ", text)
-	result := controllers.SearchForClients(text, true)
+	result := controllers.SearchForClients(text)
 	clearFields()
 	controllers.SetClient(result)
 }
@@ -168,10 +166,17 @@ func configs() {
 	grid.Attach(lbl, 1, 1, 1, 1)
 	grid.AttachNextTo(archived, lbl, gtk.POS_RIGHT, 10, 1)
 	popover.Add(grid)
+
+	archived.SetActive(filter)
 	
 	grid.ShowAll()
 	popover.ShowNow()
-	controllers.FilterArchived = archived.GetActive()
+	filter = archived.GetActive()
+	controllers.FilterArchived = filter
+	archived.Connect("state-set", func ()  {
+		filter = !filter
+		controllers.FilterArchived = filter
+	})
 }
 
 //PDF

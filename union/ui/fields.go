@@ -147,7 +147,7 @@ func labels (grid *gtk.Grid) {
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 2)
 }
 
-func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *gtk.CheckButton, *gtk.CheckButton) {
+func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *gtk.CheckButton, *gtk.CheckButton, *gtk.Button) {
 	widgets := make([]*gtk.Entry, 26)
 	calendar := make([]*gtk.Calendar, 4)
 	//thirty one fields
@@ -328,9 +328,9 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *g
 	fatal("ButtonNew Fotos", err)
 	grid.AttachNextTo(fotos, observacoes, gtk.POS_BOTTOM, 2, 2)
 
-	procuracaoCPF, err := gtk.ButtonNewWithLabel("Gerar procuração")
+	procuracao, err := gtk.ButtonNewWithLabel("Gerar procuração")
 	fatal("ButtonNew procuracaoCPF", err)
-	grid.AttachNextTo(procuracaoCPF, fotos, gtk.POS_BOTTOM, 2, 2)
+	grid.AttachNextTo(procuracao, fotos, gtk.POS_BOTTOM, 2, 2)
 
 	for _, entry := range widgets {
 		entry.SetSensitive(false)
@@ -345,12 +345,12 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *g
 
 	rateio.Connect("clicked", func ()  {	initRat()	})
 	fotos.Connect("clicked", func ()  {		photoView()		})
-	procuracaoCPF.Connect("clicked", func () { 		
+	procuracao.Connect("clicked", func () { 		
 		w := procuracaoUi()
 		w.ShowAll()
 	})
 
-	return widgets, calendar,  zonaRural, pago, empresa
+	return widgets, calendar,  zonaRural, pago, empresa, procuracao
 }
 
 func fatal(comp string, err error) {

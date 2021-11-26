@@ -17,6 +17,8 @@ func OnActivate(app *gtk.Application) {
 	Err("AppWindow", err) 
 	appWindow.SetDefaultSize(720, 680)
 	appWindow.SetPosition(gtk.WIN_POS_CENTER)
+	appWindow.SetIconFromFile("union_logo.jpg")
+	
 
 	headerbar, headerbarButtons := headerbar()
 	NewButton = headerbarButtons[0]
@@ -67,7 +69,8 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	labels(grid)
 
 	//load Fields to ui
-	entries, calendar, zonaRural, pago, empresa := fields(grid)
+	entries, calendar, zonaRural, pago, empresa, Procuracao := fields(grid)
+	ProcuracaoButton = Procuracao
 
 	//ScrolledWindow
 	scroll, err := gtk.ScrolledWindowNew(nil, nil)

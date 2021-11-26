@@ -18,7 +18,7 @@ var Calendar []*gtk.Calendar
 var	ZonaRural *gtk.CheckButton
 var Pago *gtk.CheckButton
 var Rateios []*gtk.Entry
-var FilterArchived bool
+var FilterArchived bool = false
 var Empresa *gtk.CheckButton
 
 func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton, empresa *gtk.CheckButton, Archived bool) {
@@ -42,7 +42,7 @@ func forward() manager.Client {
 	if currentClient >= clientLimit {
 		log.Println("I cannot read the next client")
 		currentClient--
-		return instances[currentClient]
+		return manager.Client{}
 	}
 	return instances[currentClient]
 }
@@ -53,7 +53,7 @@ func backward() manager.Client {
 	if currentClient <= -1 {
 		log.Println("I cannot read the back client")
 		currentClient++
-		return instances[currentClient]
+		return manager.Client{}
 	}
 	return instances[currentClient]
 }
@@ -104,14 +104,18 @@ func AddClient() {
 func Archive() bool {
 	defer ActualClient()
 	name, _ := Entries[0].GetText()
-	c := manager.GetClient(osmanager.GetSpecificInstances(name))
-	if !c.Archived {
-		c.Archived = true
-		osmanager.ReWriteInstanceData(c)
-		return true
+	if name != "" {
+		c := manager.GetClient(osmanager.GetSpecificInstances(name))
+		if !c.Archived {
+			c.Archived = true
+			osmanager.ReWriteInstanceData(c)
+			return true
+		} else {
+			c.Archived = false
+			osmanager.ReWriteInstanceData(c)
+			return false
+		}
 	} else {
-		c.Archived = false
-		osmanager.ReWriteInstanceData(c)
 		return false
 	}
 }
