@@ -62,7 +62,7 @@ func clearFields() {
 	pago.SetActive(false)
 }
 
-func Adicionar() {
+func Adicionar(entries, Rateios []*gtk.Entry, ZonaRural, Pago, Empresa *gtk.CheckButton) {
 	if cAdd == 0 {
 		clearFields()
 		NewButton.SetLabel("Adicionar")
@@ -75,7 +75,7 @@ func Adicionar() {
 			cAdd++
 		})
 	} else {
-		controllers.AddClient()
+		controllers.AddClient(entries, Rateios, ZonaRural, Pago, Empresa)
 		cAdd--
 		updateUi()
 		editingMode(false)

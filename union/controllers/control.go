@@ -89,7 +89,7 @@ func SetClient(i int) {
 	dataSet(instances[currentClient])
 }
 
-func AddClient() {
+func AddClient(entries, Rateios []*gtk.Entry, ZonaRural, Pago, Empresa *gtk.CheckButton) {
 	client := DataGet(entries, Rateios, ZonaRural, Pago, Empresa)
 	osmanager.CreateInstanceFolder(client)
 	instance := osmanager.NewInstance(client)

@@ -94,7 +94,7 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
   
 	forward.Connect("clicked", func() { 	nextClient()	})
 	backward.Connect("clicked", func() { 	previousClient()	})
-	hbb[0].Connect("clicked", func ()  { 	Adicionar()		})
+	hbb[0].Connect("clicked", func ()  { 	Adicionar(entries, rateios, zonaRural, pago, empresa)		})
 	hbb[1].Connect("clicked", func() { 		EditProject()	})
 	hbb[2].Connect("clicked", func() { 		configs()		})
 	hbb[3].Connect("clicked", func() { 		ArchiveProject(Window)		})
