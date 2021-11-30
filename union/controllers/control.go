@@ -38,42 +38,56 @@ func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, 
 
 func forward() manager.Client {
 	reload()
-	currentClient++
-	if currentClient >= clientLimit {
-		log.Println("I cannot read the next client")
-		currentClient--
-		return manager.Client{}
+	if clientLimit > 0 {
+		currentClient++
+		if currentClient >= clientLimit {
+			log.Println("I cannot read the next client")
+			currentClient--
+			return instances[currentClient]
+		}
+		return instances[currentClient]
 	}
-	return instances[currentClient]
+	return manager.Client{}
 }
 
 func backward() manager.Client {
 	reload()
-	currentClient--
-	if currentClient <= -1 {
-		log.Println("I cannot read the back client")
-		currentClient++
-		return manager.Client{}
+	if clientLimit > 0 {
+		currentClient--
+		if currentClient <= -1 {
+			log.Println("I cannot read the back client")
+			currentClient++
+			return instances[currentClient]
+		}
+		return instances[currentClient]
 	}
-	return instances[currentClient]
+	return manager.Client{}
 }
 
 //Insert data of the next client on view
 func NextClient() {
-	dataSet(forward())
+	client := forward()
+	if client.Nome != "" {
+		dataSet(client)
+	}
 }
 
 //Insert data of the previous client on view
 func PreviousClient(){
-	dataSet(backward())
+	client := backward()
+	if client.Nome != "" {
+		dataSet(client)
+	}
 }
 
 func ActualClient() {
 	reload()
-	if currentClient == -1 {
-		currentClient++
+	if clientLimit > 1 {
+		if currentClient == -1 {
+			currentClient++
+		}
+		dataSet(instances[currentClient])
 	}
-	dataSet(instances[currentClient])
 }
 
 func GetActualClientInstance() manager.Client {
@@ -95,7 +109,7 @@ func AddClient(entries, Rateios []*gtk.Entry, ZonaRural, Pago, Empresa *gtk.Chec
 	instance := osmanager.NewInstance(client)
 	json, err := client.ClientToJson()
 	if err != nil {
-		log.Fatal("I cannot add client")
+		log.Fatal("I cannot add client. ", err.Error())
 	}
 	osmanager.InstanceData(json, instance)
 	ActualClient()
@@ -126,5 +140,8 @@ func Edit() {
 }
 
 func OpenInstanceFolder() {
-	open.Run(fmt.Sprint("union/instances/", instances[currentClient].Nome, "/"))
+	err := open.Run(fmt.Sprint("union/instances/", instances[currentClient].Nome, "/"))
+	if err != nil {
+		log.Println("I cannot open the project folder. Because: ", err.Error())
+	}
 }
