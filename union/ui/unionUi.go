@@ -7,10 +7,15 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 )
 
-var editing bool = false
-var NewButton *gtk.Button
-var ConfigButton *gtk.Button
-var ProcuracaoButton *gtk.Button
+var editing 			bool = false
+var NewButton 			*gtk.Button
+var ConfigButton 		*gtk.Button
+var EditButton 			*gtk.Button
+var FolderButton 		*gtk.Button
+var ArchiveButton 		*gtk.Button
+var RateioButton 		*gtk.Button
+var ProcuracaoButton	*gtk.Button
+var FotosButton			*gtk.Button
 
 func OnActivate(app *gtk.Application) {
 	appWindow, err := gtk.ApplicationWindowNew(app)
@@ -22,7 +27,10 @@ func OnActivate(app *gtk.Application) {
 
 	headerbar, headerbarButtons := headerbar()
 	NewButton = headerbarButtons[0]
-	ConfigButton = headerbarButtons[3]
+	EditButton = headerbarButtons[1]
+	ConfigButton = headerbarButtons[2]
+	ArchiveButton = headerbarButtons[3]
+	FolderButton = headerbarButtons[4]
 
 	appWindow.SetTitlebar(headerbar)
 	Rateios := subUiRateio(editing)
@@ -58,7 +66,6 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	backward, err := gtk.ButtonNewFromIconName("forward-rtl-symbolic", gtk.ICON_SIZE_BUTTON)
 	Err("Backward button", err)
 	hbox.PackStart(backward, false, true, 2)
-	backward.SetOpacity(0.10)
 
 	//grid
 	grid, err := gtk.GridNew()
@@ -69,8 +76,10 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	labels(grid)
 
 	//load Fields to ui
-	entries, calendar, zonaRural, pago, empresa, Procuracao := fields(grid)
+	entries, calendar, zonaRural, pago, empresa, Procuracao, RateioB, Fotos := fields(grid)
 	ProcuracaoButton = Procuracao
+	RateioButton = RateioB
+	FotosButton = Fotos
 
 	//ScrolledWindow
 	scroll, err := gtk.ScrolledWindowNew(nil, nil)
@@ -82,7 +91,6 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	forward, err := gtk.ButtonNewFromIconName("forward-symbolic", gtk.ICON_SIZE_BUTTON)
 	Err("Forward button", err)
 	hbox.PackEnd(forward, false, true, 2)
-	forward.SetOpacity(0.10)
 
 
 	//Functions
@@ -92,14 +100,13 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 		searchFor(searchEntry)
 	})
   
-	forward.Connect("clicked", func() { 	nextClient()	})
-	backward.Connect("clicked", func() { 	previousClient()	})
+	forward.Connect("clicked", func()  { 	nextClient()												})
+	backward.Connect("clicked", func() { 	previousClient()											})
 	hbb[0].Connect("clicked", func ()  { 	Adicionar(entries, rateios, zonaRural, pago, empresa)		})
-	hbb[1].Connect("clicked", func() { 		EditProject()	})
-	hbb[2].Connect("clicked", func() { 		configs()		})
-	hbb[3].Connect("clicked", func() { 		ArchiveProject(Window)		})
-	hbb[4].Connect("clicked", func ()  {	openProjectFolder()		})
-
+	hbb[1].Connect("clicked", func()   { 	EditProject()												})
+	hbb[2].Connect("clicked", func()   { 	configs()													})
+	hbb[3].Connect("clicked", func()   { 	ArchiveProject(Window)										})
+	hbb[4].Connect("clicked", func ()  {	openProjectFolder()											})
 }
 
 func Err(comp string, err error) {

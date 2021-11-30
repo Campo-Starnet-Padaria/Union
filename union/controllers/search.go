@@ -17,7 +17,7 @@ func reload() {
 		//in this case get all instances when it has Archived property equals false
 		for _, ins := range Instances {
 			filter := ins.FilterByArchived(FilterArchived)
-			if !filter {
+			if filter {
 				nInst = append(nInst, ins)
 			}
 		}
@@ -25,7 +25,13 @@ func reload() {
 		clientLimit = len(nInst)
 	} else {
 		//In this case get all instances
-		instances = Instances
+		for _, ins := range Instances {
+			filter := ins.FilterByArchived(FilterArchived)
+			if filter {
+				nInst = append(nInst, ins)
+			}
+		}
+		instances = nInst
 		clientLimit = len(instances)
 	}
 }

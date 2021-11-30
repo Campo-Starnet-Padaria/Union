@@ -39,6 +39,24 @@ func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, Z
 		m := controllers.CashFormat(controllers.ValorComissao(v))
 		entries[19].SetText(fmt.Sprint("Valor: R$ ", m))
 	})
+
+	if entries[0].GetTextLength() > 0 {
+		EditButton.SetSensitive(true)
+		FolderButton.SetSensitive(true)
+		ArchiveButton.SetSensitive(true)
+		ProcuracaoButton.SetSensitive(true)
+		RateioButton.SetSensitive(true)
+		FotosButton.SetSensitive(true)
+		Empresa.SetSensitive(true)
+	} else {
+		EditButton.SetSensitive(false)
+		FolderButton.SetSensitive(false)
+		ArchiveButton.SetSensitive(false)
+		ProcuracaoButton.SetSensitive(false)
+		RateioButton.SetSensitive(false)
+		FotosButton.SetSensitive(false)
+		Empresa.SetSensitive(false)
+	}
 }
 
 func nextClient() {
@@ -72,6 +90,7 @@ func Adicionar(entries, Rateios []*gtk.Entry, ZonaRural, Pago, Empresa *gtk.Chec
 		entries[0].SetSensitive(true)
 		entries[0].Connect("activate", func () {
 			editingMode(true)
+			entries[0].SetSensitive(false)
 			cAdd++
 		})
 	} else {
@@ -122,6 +141,22 @@ func editingMode(editing bool) {
 		} else if (name == "NameEntry" && !editing) {
 			e.SetSensitive(editing)
 		}
+	}
+
+	if entries[0].GetTextLength() > 0 {
+		EditButton.SetSensitive(true)
+		FolderButton.SetSensitive(true)
+		ArchiveButton.SetSensitive(true)
+		ProcuracaoButton.SetSensitive(true)
+		RateioButton.SetSensitive(true)
+		FotosButton.SetSensitive(true)
+	} else {
+		EditButton.SetSensitive(false)
+		FolderButton.SetSensitive(false)
+		ArchiveButton.SetSensitive(false)
+		ProcuracaoButton.SetSensitive(false)
+		RateioButton.SetSensitive(false)
+		FotosButton.SetSensitive(false)
 	}
 
 	for _, c := range calendar {

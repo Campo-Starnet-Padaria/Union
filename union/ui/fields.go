@@ -147,7 +147,7 @@ func labels (grid *gtk.Grid) {
 	grid.AttachNextTo(observacoes, ppkw, gtk.POS_BOTTOM, 2, 2)
 }
 
-func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *gtk.CheckButton, *gtk.CheckButton, *gtk.Button) {
+func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *gtk.CheckButton, *gtk.CheckButton, *gtk.Button, *gtk.Button, *gtk.Button) {
 	widgets := make([]*gtk.Entry, 26)
 	calendar := make([]*gtk.Calendar, 4)
 	//thirty one fields
@@ -350,7 +350,7 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *g
 		w.ShowAll()
 	})
 
-	return widgets, calendar,  zonaRural, pago, empresa, procuracao
+	return widgets, calendar,  zonaRural, pago, empresa, procuracao, rateio, fotos
 }
 
 func fatal(comp string, err error) {
