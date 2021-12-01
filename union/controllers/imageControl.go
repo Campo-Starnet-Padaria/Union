@@ -73,13 +73,13 @@ func PreviousImage() *gdk.Pixbuf {
 }
 
 func getPath(fileName string) string {
-	return fmt.Sprint("union/instances/", instances[currentClient].Nome, "/", fileName)
+	return fmt.Sprint("union", so, "instances", so, instances[currentClient].Nome, so, fileName)
 }
 
 func InsertNewImage(uri string) {
 	var images []string
 	instances[currentClient].InsertAttachment(uri)
-	images = append(images, manager.SubstringAfterLast(uri, "/"))
+	images = append(images, manager.SubstringAfterLast(uri, so))
 
 	instances[currentClient].Fotos = append(instances[currentClient].Fotos, images...)
 	

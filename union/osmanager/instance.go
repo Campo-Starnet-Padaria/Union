@@ -10,22 +10,24 @@ import (
 	"com.github/FelipeAlafy/union/manager"
 )
 
+//Attention to variable so, that defines which separator is used for correctly operating system. It was defined on basicStruct.
+
 func CreateInstanceFolder(c manager.Client) error {
-	path := "union/instances/" + c.Nome
-	if _, err := os.Stat("union/"); os.IsNotExist(err) {
+	path := "union" + so + "instances" + so + c.Nome
+	if _, err := os.Stat(fmt.Sprint("union", so)); os.IsNotExist(err) {
 		osPanic(err)
-	} else if _, err := os.Stat("union/instances"); os.IsNotExist(err) {
+	} else if _, err := os.Stat(fmt.Sprint("union", so, "instances")); os.IsNotExist(err) {
 		osPanic(err)
 	} else if _, err := os.Stat(path); os.IsNotExist(err) {
-		err := os.Mkdir(fmt.Sprint("union/instances/", c.Nome), 0755)
+		err := os.Mkdir(fmt.Sprint("union", so, "instances", so, c.Nome), 0755)
 		osPanic(err)
 	}
 	return nil
 }
 
 func NewInstance(c manager.Client) *os.File {
-	path := fmt.Sprint("union/instances/", c.Nome)
-	file, err := os.Create(fmt.Sprint(path, "/", c.Nome, ".json"))
+	path := fmt.Sprint("union", so, "instances", so, c.Nome)
+	file, err := os.Create(fmt.Sprint(path, so, c.Nome, ".json"))
 	osPanic(err)
 	return file
 }
@@ -36,7 +38,7 @@ func InstanceData(bytes []byte, file *os.File) {
 }
 
 func ReWriteInstanceData(c manager.Client) {
-	os.Remove(fmt.Sprint("union/instances/", c.Nome, "/", c.Nome, ".json"))
+	os.Remove(fmt.Sprint("union", so, "instances", so, c.Nome, so, c.Nome, ".json"))
 	nFile := NewInstance(c)
 	bytes, _ := c.ClientToJson()
 	InstanceData(bytes, nFile)
@@ -46,14 +48,14 @@ func ReWriteInstanceData(c manager.Client) {
 func GetInstances() []string {
 	var jsons []string
 
-	filepath.Walk("union/instances", 
+	filepath.Walk(fmt.Sprint("union", so, "instances"), 
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 
 			if !info.IsDir() {
-				filename := strings.SplitAfterN(path, "/", 4)
+				filename := strings.SplitAfterN(path, so, 4)
 				if extension := strings.Split(filename[len(filename) - 1], "."); extension[1] == "json" {
 					log.Println("Reading -> ", filename)
 					if err != nil {
@@ -74,7 +76,7 @@ func GetInstances() []string {
 func GetSpecificInstances(specific string) string {
 	var returnable string
 
-	filepath.Walk("union/instances", 
+	filepath.Walk(fmt.Sprint("union", so, "instances"), 
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
