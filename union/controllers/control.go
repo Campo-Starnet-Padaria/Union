@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"log"
+	"runtime"
 
 	"com.github/FelipeAlafy/union/manager"
 	"com.github/FelipeAlafy/union/osmanager"
@@ -20,6 +21,7 @@ var Pago *gtk.CheckButton
 var Rateios []*gtk.Entry
 var FilterArchived bool = false
 var Empresa *gtk.CheckButton
+var so string
 
 func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, zonaRural *gtk.CheckButton, pago *gtk.CheckButton, empresa *gtk.CheckButton, Archived bool) {
 	reload()
@@ -30,6 +32,22 @@ func Init(entries []*gtk.Entry, calendar []*gtk.Calendar, rateios []*gtk.Entry, 
 	Pago = pago
 	Rateios = rateios
 	Empresa = empresa
+
+	os := runtime.GOOS
+    switch os {
+    case "windows":
+        fmt.Println("Windows")
+		so = "\\"
+    case "darwin":
+        fmt.Println("MAC operating system")
+		so = "/"
+    case "linux":
+        fmt.Println("Linux")
+		so = "/"
+    default:
+        fmt.Printf("%s.\n", os)
+		so = "/"
+    }
 
 	if clientLimit > 0 {
 		NextClient()
@@ -140,7 +158,7 @@ func Edit() {
 }
 
 func OpenInstanceFolder() {
-	err := open.Run(fmt.Sprint("union/instances/", instances[currentClient].Nome, "/"))
+	err := open.Start(fmt.Sprint("union", so, "instances", so, instances[currentClient].Nome, so))
 	if err != nil {
 		log.Println("I cannot open the project folder. Because: ", err.Error())
 	}
