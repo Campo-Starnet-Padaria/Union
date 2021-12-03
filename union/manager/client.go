@@ -48,7 +48,6 @@ type Client struct {
 	PKH				string		`json:"PKH"` //Preço Kw/hora
 
 	//Anexos
-	Fotos           []string	`json:"Fotos"`
 	Observacao      string      `json:"Observacao"`
 
 	//Unite utils

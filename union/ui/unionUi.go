@@ -15,7 +15,6 @@ var FolderButton 		*gtk.Button
 var ArchiveButton 		*gtk.Button
 var RateioButton 		*gtk.Button
 var ProcuracaoButton	*gtk.Button
-var FotosButton			*gtk.Button
 
 func OnActivate(app *gtk.Application) {
 	appWindow, err := gtk.ApplicationWindowNew(app)
@@ -76,10 +75,9 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	labels(grid)
 
 	//load Fields to ui
-	entries, calendar, zonaRural, pago, empresa, Procuracao, RateioB, Fotos := fields(grid)
+	entries, calendar, zonaRural, pago, empresa, Procuracao, RateioB := fields(grid)
 	ProcuracaoButton = Procuracao
 	RateioButton = RateioB
-	FotosButton = Fotos
 
 	//ScrolledWindow
 	scroll, err := gtk.ScrolledWindowNew(nil, nil)
