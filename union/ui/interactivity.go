@@ -46,7 +46,6 @@ func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, Z
 		ArchiveButton.SetSensitive(true)
 		ProcuracaoButton.SetSensitive(true)
 		RateioButton.SetSensitive(true)
-		FotosButton.SetSensitive(true)
 		Empresa.SetSensitive(true)
 	} else {
 		EditButton.SetSensitive(false)
@@ -54,7 +53,6 @@ func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, Z
 		ArchiveButton.SetSensitive(false)
 		ProcuracaoButton.SetSensitive(false)
 		RateioButton.SetSensitive(false)
-		FotosButton.SetSensitive(false)
 		Empresa.SetSensitive(false)
 	}
 }
@@ -149,14 +147,12 @@ func editingMode(editing bool) {
 		ArchiveButton.SetSensitive(true)
 		ProcuracaoButton.SetSensitive(true)
 		RateioButton.SetSensitive(true)
-		FotosButton.SetSensitive(true)
 	} else {
 		EditButton.SetSensitive(false)
 		FolderButton.SetSensitive(false)
 		ArchiveButton.SetSensitive(false)
 		ProcuracaoButton.SetSensitive(false)
 		RateioButton.SetSensitive(false)
-		FotosButton.SetSensitive(false)
 	}
 
 	for _, c := range calendar {
