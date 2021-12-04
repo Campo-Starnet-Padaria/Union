@@ -3,20 +3,22 @@ package ui
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"com.github/FelipeAlafy/union/controllers"
 	"github.com/gotk3/gotk3/gtk"
 )
 
-var cAdd int = 0
-var cEdit int = 0
-var entries []*gtk.Entry
-var rateios []*gtk.Entry
-var calendar []*gtk.Calendar
-var zonaRural *gtk.CheckButton
-var pago *gtk.CheckButton
-var Archived *gtk.Switch
-var filter bool = false
+var cAdd 		int = 0
+var cEdit 		int = 0
+var entries 	[]*gtk.Entry
+var rateios 	[]*gtk.Entry
+var calendar 	[]*gtk.Calendar
+var zonaRural 	*gtk.CheckButton
+var pago 		*gtk.CheckButton
+var Archived 	*gtk.Switch
+var filter 		bool = false
+var calendars 	[]*gtk.Calendar
 
 func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, ZonaRural *gtk.CheckButton, Pago *gtk.CheckButton, Empresa *gtk.CheckButton) {
 	entries = Entries
@@ -24,6 +26,7 @@ func InitInteractions(Entries, Rateios []*gtk.Entry, Calendar []*gtk.Calendar, Z
 	calendar = Calendar
 	zonaRural = ZonaRural
 	pago = Pago
+	calendars = calendar
 	controllers.FilterArchived = false
 
 	//Entry: Valor do Kit
@@ -82,9 +85,7 @@ func Adicionar(entries, Rateios []*gtk.Entry, ZonaRural, Pago, Empresa *gtk.Chec
 	if cAdd == 0 {
 		clearFields()
 		NewButton.SetLabel("Adicionar")
-		fotos.SetSensitive(false)
 		ProcuracaoButton.SetSensitive(false)
-		fotos.SetTooltipText("Depois que você adicionar esse projeto.\n Vá passando até chegar nele, e assim poderá adicionar.")
 		entries[0].SetSensitive(true)
 		entries[0].Connect("activate", func () {
 			editingMode(true)
@@ -97,8 +98,6 @@ func Adicionar(entries, Rateios []*gtk.Entry, ZonaRural, Pago, Empresa *gtk.Chec
 		updateUi()
 		editingMode(false)
 		ProcuracaoButton.SetSensitive(true)
-		fotos.SetSensitive(true)
-		fotos.SetTooltipText("")
 		NewButton.SetLabel("Novo")
 	}
 }
@@ -153,6 +152,12 @@ func editingMode(editing bool) {
 		ArchiveButton.SetSensitive(false)
 		ProcuracaoButton.SetSensitive(false)
 		RateioButton.SetSensitive(false)
+	}
+
+	for _, c := range calendars {
+		t := time.Now()
+		c.SelectDay(uint(t.Day()))
+		c.SelectMonth(uint(t.Month()), uint(t.Year()))
 	}
 
 	for _, c := range calendar {
