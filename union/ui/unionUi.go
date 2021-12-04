@@ -23,7 +23,6 @@ func OnActivate(app *gtk.Application) {
 	appWindow.SetPosition(gtk.WIN_POS_CENTER)
 	appWindow.SetIconFromFile("union_logo.jpg")
 	
-
 	headerbar, headerbarButtons := headerbar()
 	NewButton = headerbarButtons[0]
 	EditButton = headerbarButtons[1]
@@ -90,8 +89,24 @@ func ui(app *gtk.ApplicationWindow, hbb []*gtk.Button) {
 	Err("Forward button", err)
 	hbox.PackEnd(forward, false, true, 2)
 
-
 	//Functions
+	entries[1].Connect("insert-text", func ()  {
+		pos := entries[1].GetPosition()
+		buff, _ := entries[1].GetBuffer()
+		log.Println("Entry CPF está na posição", pos)
+		defer entries[1].SetPosition(-1)
+		if pos == 2 || pos == 6 {
+			i := buff.InsertText(uint(pos + 1), ".")
+			log.Println("Entry CPF está na posição", i)
+		} else if pos == 10 {
+			i := buff.InsertText(uint(pos +1), "-")
+			log.Println("Entry CPF está na posição", i)
+		}
+		text, _ := entries[1].GetText()
+		entries[1].SetText("")
+		entries[1].SetText(text)
+	})
+	
 	controllers.Init(entries, calendar, rateios, zonaRural, pago, empresa, Archived.GetActive())
 	InitInteractions(entries, rateios, calendar,  zonaRural, pago, empresa)
 	searchEntry.Connect("activate", func ()  {
