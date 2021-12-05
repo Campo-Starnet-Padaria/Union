@@ -340,8 +340,8 @@ func fields(grid *gtk.Grid) ([]*gtk.Entry, []*gtk.Calendar, *gtk.CheckButton, *g
 	pago.SetSensitive(false)
 
 	rateio.Connect("clicked", func ()  {	initRat()	})
-	procuracao.Connect("clicked", func () { 		
-		w := procuracaoUi()
+	procuracao.Connect("clicked", func () {
+		w := procuracaoUi(empresa.GetActive())
 		w.ShowAll()
 	})
 
