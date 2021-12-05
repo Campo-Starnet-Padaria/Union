@@ -54,7 +54,7 @@ func subUiRateio(editing bool) ([]*gtk.Entry) {
 		entry, err := gtk.EntryNew()
 		fatal(fmt.Sprint("EntryNew Entry", i), err)
 		grid.AttachNextTo(entry, sEntry, gtk.POS_BOTTOM, 40, 1)
-		entry.SetSensitive(editing)
+		entry.SetSensitive(false)
 		sEntry = entry
 		entries[i] = entry
 	}
